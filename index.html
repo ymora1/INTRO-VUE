@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Intro to Vue.js</title>
+    <link
+      href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div id="app" class="bg-pink-300 h-screen flex flex-col items-center pt-8">
+      <h1 class="text-4xl font-monotype-corsiva">
+        Welcome to {{storeName}}
+      </h1>
+      <h3>Thank you for shopping!</h3>
+      <ul class="mt-16 w-10/12">
+        <li
+          class="bg-white mt-4 p-2 shadow-lg text-gray-800"
+          v-for="product in products"
+        >
+          {{product.qty}} - {{product.name}}
+          <span v-if="product.qty==0" class="ml-4 text-red-400 font-bold">
+            Out of Stock </span
+          ><button
+            @click="product.qty++"
+            class="bg-green-400 rounded  text-white px-2 ml-16"
+          >
+            +</button
+          ><button
+            v-if="product.qty > 0"
+            @click="product.qty--"
+            class="bg-red-400 rounded  text-white px-2 ml-1"
+          >
+            -
+          </button>
+        </li>
+      </ul>
+      <h1 class="text-5xl font-thin">Total Inventory: {{totalInventory}}</h1>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script>
+      const app = new Vue({
+        el: '#app',
+        data: {
+          storeName: 'Berry Delicious',
+          products: [
+            {
+              id: 0,
+              name: 'Ribs',
+              qty: 5
+            },
+            {
+              id: 1,
+              name: 'Chicken',
+              qty: 0
+            },
+            {
+              id: 2,
+              name: 'Tortillas',
+              qty: 10
+            },
+            {
+              id: 3,
+              name: 'T-bone',
+              qty: 9
+            },
+            {
+              id: 4,
+              name: 'Fajita',
+              qty: 2
+            }
+          ]
+        },
+        computed: {
+          totalInventory() {
+            return this.products.reduce((total, product) => {
+              return total + product.qty
+            }, 0)
+          }
+        }
+      })
+    </script>
+  </body>
+</html>
